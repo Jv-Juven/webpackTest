@@ -1,0 +1,13 @@
+body {
+	background: white;
+}
+.bg-block {
+	width: 600px;
+	height: 800px;
+}
+.a {
+	background: url(img/a.png);
+}
+.b {
+	background: url(img/b.jpg);
+}
