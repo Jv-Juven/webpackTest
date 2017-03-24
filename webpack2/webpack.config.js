@@ -10,8 +10,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
     entry: {
-        vendor: "./static/js/jquery-3.2.0.js",
-        index: "./src/js/index.js"
+        // index: "./src/js/index",
+        main: "./src/js/main",
+        vendor: "./static/js/jquery-3.2.0"
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -19,10 +20,31 @@ const config = {
         publicPath: "/",
     },
     resolve: {
-        extensions: [".js", ".css", ".json"]
+        extensions: [".js", ".css", ".json", ".vue"],
+        alias: {
+            vue: "vue/dist/vue.js"
+        }
     },
     module: {
         rules: [
+            {
+                test: /\.vue$/,
+                use: {
+                    loader: 'vue-loader',
+                    options: {
+                        loaders: {
+                            css: ExtractTextPlugin.extract({
+                                use: "css-loader",
+                                fallback: "vue-style-loader"
+                            }),
+                            less: ExtractTextPlugin.extract({
+                                use: "css-loader!less-loader",
+                                fallback: "vue-style-loader"
+                            })
+                        }
+                    }
+                }
+            },
             {
                 test: /\.less$/,
                 use: ExtractTextPlugin.extract({
@@ -44,7 +66,7 @@ const config = {
     },
     plugins: [
         // new webpack.optimize.UglifyJsPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
+        // new webpack.HotModuleReplacementPlugin(),
         new ExtractTextPlugin({
             filename: "[name].css",
         }),
